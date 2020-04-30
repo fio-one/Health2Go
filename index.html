@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+<title>Health2GO</title>
+<meta name="description" content="The Minimal Health Management and Alert System"/>
+<meta property="og:title" content="Health2GO"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://health2go.fio.one/"/>
+<meta property="og:image" content="https://health2go.fio.one/image/og.jpg"/>
+<meta property="og:description" content="The Minimal Health Management and Alert System"/>
+<meta property="fb:app_id" content="550997432104869"/>	<link href="image/favicon.ico" sizes="any" type="image/svg+xml" rel="icon">
+<link href="image/favicon.png" rel="shortcut icon">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue-cookies@1.7.0/vue-cookies.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios-jsonp-pro@1.1.7/dist/axios.min.js"></script>
+<link href="styles.css?v=1588217388" rel="stylesheet"><script type="text/javascript" src="js/bundle.js?v=1588217388"></script></head>
+<body class="lang-en"><div id="vue" class="row page-container">
+	<div class="col-md-5 col-sm-12 col-xs-12 center-flexbox sidebar-container"><div class="inner">
+	<div class="info-block">
+		<p>Call 911 if you have a medical emergency: If you have a medical emergency and need to call 911, notify the operator that you have or think you might have, COVID-19. If possible, put on a facemask before medical help arrives.<a href="https://www.cdc.gov/coronavirus/2019-ncov/if-you-are-sick/steps-when-sick.html" target="_blank">CDC website</a></p>
+	</div>
+	<div class="bif-block">
+		<a href="#" class="bif-logo"><img src="image/bif.png"></a>
+		<p>Email: <a href="mailto:info@bif.one">info@bif.one</a></p>
+		<p>Copyright © <span id="year"></span>. All rights reserved.</p>
+		<div class="link-group-block">
+			<ul>
+				<li><a href="mailto:info@bif.one" target="_blank"><i class="fas fa-envelope"></i></a></li>
+			</ul>
+		</div>
+	</div>
+</div></div>
+	<div class="col-md-7 col-sm-12 col-xs-12 content-container first-xs">
+		<div class="toolbar clearfix">
+			<a class="link-text float-right" @click="logout()" v-if="page == 'dashboard' || page == 'log'">Logout</a>
+			<img class="logo" src="image/logo.png?=1">
+		</div>
+		<div class="center-flexbox content-container-inner" v-if="page === 'login'">
+    <div class="row center-xs auth-form"><div class="col-md-12 col-sm-8 col-xs-12 auth-form-inner">
+        <p class="title">Welcome to Health2GO</p>
+        <div id="form-group-username" class="form-group">
+          <input class="form-control" type="text" v-model="username" placeholder="Enter your email address to request an access link to Health2GO" ref="username" require @keyup.enter="login"/>
+          <p class="help-text">( No Password Required )</p>
+          <div class="invalid-feedback text-right"></div>
+        </div>
+        <div class="submit-area">
+            <button class="btn-primary submit-btn" type="button" @click="login()">Request Access</button>
+        </div>
+        <div class="register-area">
+            <p class="title">Not registered? Join us to fight COVID-19 together</p>
+            <div class="row center-xs"><div class="clearfix col-md-8">
+                <a class="btn-primary float-left" href="https://docs.google.com/forms/d/e/1FAIpQLSfiYPLRkHDFmqsXmgiEaOU1PIyRsbPwE15pQTfvQ9JEx8r5-Q/viewform" target="_blank">Business</a>
+                <a class="btn-primary float-right" href="https://docs.google.com/forms/d/e/1FAIpQLScCctBpFzJRywUN5lh3d2sGe0mCkJwmuCdiLms7my_HgOqG1w/viewform" target="_blank">Personal</a>
+            </div></div>
+        </div>
+    </div></div>
+</div>		<div class="center-flexbox content-container-inner" v-if="page === 'register'">
+    <div class="row center-xs register-form"><div class="col-md-12 col-sm-8 col-xs-12 register-form-inner">
+        <div class="form-group" id="form-group-name">
+          <input class="form-control" type="text" placeholder="Name/Company Name" require v-model="apply.name"/>
+          <div class="invalid-feedback text-right"></div>
+          <p class="help-text text-left">Please fill in the Name/Company Name in the above field.</p>
+        </div>
+        <div class="form-group" id="form-group-email">
+          <input class="form-control" type="text" placeholder="Email" require v-model="apply.email"/>
+          <div class="invalid-feedback text-right"></div>
+          <p class="help-text text-left">Please fill in the Email in the above field.</p>
+        </div>
+        <div class="form-group" id="form-group-email-confirmation">
+          <input class="form-control" type="text" placeholder="E-mail Confirmation" require v-model="apply.email_confirmation"/>
+          <div class="invalid-feedback text-right"></div>
+          <p class="help-text text-left">Please fill in the E-mail in the above field again.</p>
+        </div>
+        <div class="form-group" id="form-group-zip-code">
+          <input class="form-control" type="text" placeholder="ZIP Code" require v-model="apply.zip_code"/>
+          <div class="invalid-feedback text-right"></div>
+          <p class="help-text text-left">Please fill in the ZIP Code in the above field.</p>
+        </div>
+        
+        <div class="row form-group" id="form-group-type">
+        	<div class="col-md-6 form-check text-left">
+			  <input class="form-check-input" name="type" type="radio" id="type-personal" value="personal" v-model="apply.type">
+			  <label class="form-check-label" for="type-personal">Personal</label>
+			</div>
+			<div class="col-md-6 form-check text-left">
+			  <input class="form-check-input" name="type" type="radio" id="type-business" value="business" v-model="apply.type">
+			  <label class="form-check-label" for="type-business">Business</label>
+			</div>
+			<p class="help-text text-left">Please choose your type in the above field.</p>
+        </div>
+        <div class="form-group" id="form-group-ein" v-if="apply.type === 'business'">
+          <input class="form-control" type="text" placeholder="EIN Number" require v-model="apply.ein"/>
+          <div class="invalid-feedback text-right"></div>
+          <p class="help-text text-left">Please fill in the EIN Number in the above field again.</p>
+        </div>
+        <div class="form-group" id="form-group-title" v-if="apply.type === 'business'">
+          <input class="form-control" type="text" placeholder="Applicant Title / Name" require v-model="apply.title"/>
+          <div class="invalid-feedback text-right"></div>
+          <p class="help-text text-left">Please fill in the Applicant Title / Name in the above field again.</p>
+        </div>
+        <div class="submit-area">
+            <button class="btn-primary submit-btn" type="button" @click="register()">Register</button>
+        </div>
+    </div></div>
+</div>		<div class="content-container-inner" v-if="page === 'dashboard'"><div class="row center-xs">
+	<div class="col-md-12 col-sm-10 col-xs-12 num-block">
+		<p class="title">Number of People Participated Today</p>
+		<div class="row between-xs">
+			<div class="col-md-8 col-xs-6">
+				<p class="num" v-text="overview.total" @click="showLog()"></p>
+				<div class="status-dot-area text-right" :class="getStatus('total')">
+					<span class="status-dot success"><i class="fas fa-circle"></i></span>
+					<span class="status-dot warning"><i class="fas fa-circle"></i></span>
+					<span class="status-dot danger"><i class="fas fa-circle"></i></span>
+				</div>
+			</div>
+			<div class="col-md-3 col-xs-6">
+				<a href="#" class="sheet-link" target="_blank">
+					<span class="status-dot wait"><i class="fas fa-circle"></i></span><br>
+					Googlesheet link
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12 col-sm-10 col-xs-12 num-block">
+		<p class="title">Number of Healthy People</p>
+		<div class="row between-xs">
+			<div class="col-md-8 col-xs-6">
+				<p class="num" v-text="overview.health" @click="showLog()"></p>
+				<div class="status-dot-area text-right" :class="getStatus('total')">
+					<span class="status-dot success"><i class="fas fa-circle"></i></span>
+					<span class="status-dot warning"><i class="fas fa-circle"></i></span>
+					<span class="status-dot danger"><i class="fas fa-circle"></i></span>
+				</div>
+			</div>
+			<div class="col-md-3 col-xs-6">
+				<p class="num percent" v-text="toPercent(overview.health, overview.total)" @click="showLog()"></p>
+				<p class="help-text">Based on Number of Participants</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12 col-sm-10 col-xs-12 num-block">
+		<p class="title">People with Fever</p>
+		<div class="row between-xs">
+			<div class="col-md-8 col-xs-6">
+				<p class="num" v-text="overview.fever" @click="showLog()"></p>
+				<div class="status-dot-area text-right" :class="getStatus('fever')">
+					<span class="status-dot success"><i class="fas fa-circle"></i></span>
+					<span class="status-dot warning"><i class="fas fa-circle"></i></span>
+					<span class="status-dot danger"><i class="fas fa-circle"></i></span>
+				</div>
+			</div>
+			<div class="col-md-3 col-xs-6">
+				<p class="num percent" v-text="toPercent(overview.fever, overview.total)" @click="showLog()"></p>
+				<p class="help-text">Based on Number of Participants</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12 col-sm-10 col-xs-12 num-block">
+		<p class="title">People with One or Two Symptoms</p>
+		<div class="row between-xs">
+			<div class="col-md-8 col-xs-6">
+				<p class="num" v-text="overview.warning" @click="showLog()"></p>
+				<div class="status-dot-area text-right" :class="getStatus('warning')">
+					<span class="status-dot success"><i class="fas fa-circle"></i></span>
+					<span class="status-dot warning"><i class="fas fa-circle"></i></span>
+					<span class="status-dot danger"><i class="fas fa-circle"></i></span>
+				</div>
+			</div>
+			<div class="col-md-3 col-xs-6">
+				<p class="num percent" v-text="toPercent(overview.warning, overview.total)" @click="showLog()"></p>
+				<p class="help-text">Based on Number of Participants</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12 col-sm-10 col-xs-12 num-block">
+		<p class="title">People with More than Three Symptoms</p>
+		<div class="row between-xs">
+			<div class="col-md-8 col-xs-6">
+				<p class="num" v-text="overview.danger" @click="showLog()"></p>
+				<div class="status-dot-area text-right" :class="getStatus('danger')">
+					<span class="status-dot success"><i class="fas fa-circle"></i></span>
+					<span class="status-dot warning"><i class="fas fa-circle"></i></span>
+					<span class="status-dot danger"><i class="fas fa-circle"></i></span>
+				</div>
+			</div>
+			<div class="col-md-3 col-xs-6">
+				<p class="num percent" v-text="toPercent(overview.danger, overview.total)" @click="showLog()"></p>
+				<p class="help-text">Based on Number of Participants</p>
+			</div>
+		</div>
+	</div>
+</div></div>		<div class="content-container-inner" v-if="page === 'log'">
+	<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">
+		<button class="btn" @click="goPage('dashboard')">Back</button>
+		<div class="table-responsive"><table>
+			<thead><tr>
+				<th>ID</th>
+				<th>Email</th>
+				<th>Name</th>
+				<th>Date</th>
+				<th>Num</th>
+				<th>Action</th>
+			</tr></thead>
+			<tbody>
+				<tr v-for="(row, index) in log">
+					<td v-text="index"></td>
+					<td v-text="row.email"></td>
+					<td v-text="row.name"></td>
+					<td v-text="row.date"></td>
+					<td v-text="row.num"></td>
+					<td>
+						<button class="btn">Log</button>
+						<button class="btn-primary">Export</button>
+					</td>
+				</tr>
+			</tbody>
+		</table></div>
+	</div></div>
+</div>	</div>
+</div></body>
+</html>
