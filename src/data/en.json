@@ -1,0 +1,12 @@
+{
+    "imgPath": "/src/image/",
+	"distPath": "/",
+    "lang": "en",
+    "meta": {
+    	"title": "Health2GO",
+    	"description": "The Minimal Health Management and Alert System",
+        "fbid": "550997432104869",
+        "url": "https://health2go.fio.one/",
+        "image": "https://health2go.fio.one/image/og.jpg"
+    }
+}
