@@ -114,7 +114,7 @@ window.addEventListener('load', function () {
 					return;
 				}
 				api.jsonp({
-					url: 'https://alpha.fio.one/healthyme',
+					url: 'https://health2go.life/healthyme',
 					logTitle: 'Init',
 					hookSuccess: function(aio_data) {
 						if (typeof aio_data.username === 'undefined')
@@ -269,7 +269,7 @@ window.addEventListener('load', function () {
 
 				// do login
 				api.jsonp({
-					url: 'https://alpha.fio.one/healthyme/login',
+					url: 'https://health2go.life/healthyme/login',
 					params: {username: vue_data.username},
 					logTitle: 'Login',
 					hookSuccess: function(aio_data) {
@@ -286,7 +286,7 @@ window.addEventListener('load', function () {
 			logout: function() {
 				let vue_data = this.$data;
 				api.jsonp({
-					url: 'https://alpha.fio.one/healthyme/logout',
+					url: 'https://health2go.life/healthyme/logout',
 					logTitle: 'Logout',
 					hookSuccess: function(aio_data) {
 						vue_data.username = '';
