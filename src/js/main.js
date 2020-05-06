@@ -63,7 +63,7 @@ api.jsonp = function({url, params={}, hookSuccess, hookFail, showFailAlert=true,
 	return axios.jsonp(
 		url, {params}
 	).then(function(response) {
-		// console.log(`[${logTitle}] FiO API response`, response);
+		// console.log(`[${logTitle}] API response`, response);
 		// Msut have: response.code
 		if (typeof response.code === 'undefined') {
 			data.page = 'login';
