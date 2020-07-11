@@ -104,6 +104,14 @@
 			display: none;
 		}
 	}
+	.register-area {
+		.btn-primary {
+			margin-left: 16px;
+			&:first-child {
+				margin-left: 0;
+			}
+		}
+	}
 
 	footer {
 	  .inner {
